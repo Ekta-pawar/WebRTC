@@ -1,0 +1,47 @@
+.dashboard-greeting {
+  padding: 0 20px;
+  margin-bottom: 18px;
+}
+.dashboard-greeting h1 { font-size: 1.4rem; margin-bottom: 2px; }
+.dashboard-greeting p { color: var(--color-text-muted); font-size: 0.9rem; }
+
+.quick-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 20px;
+  margin-bottom: 8px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 22px 20px 10px;
+}
+.section-header h2 { font-size: 0.95rem; }
+.section-header a {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 20px;
+}
+
+@media (min-width: 640px) {
+  .dashboard-greeting, .quick-actions, .section-header, .card-list { padding-inline: 32px; }
+  .quick-actions { flex-direction: row; }
+  .quick-actions .btn { width: auto; flex: 1; }
+}
+
+@media (min-width: 900px) {
+  .card-list--grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}

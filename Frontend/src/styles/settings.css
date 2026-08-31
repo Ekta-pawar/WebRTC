@@ -1,0 +1,64 @@
+.settings-page {
+  padding: 0 20px;
+  max-width: 640px;
+}
+@media (min-width: 640px) { .settings-page { padding-inline: 32px; } }
+
+.settings-profile {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.settings-profile__avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+.settings-profile__name { font-weight: 700; font-size: 1.05rem; }
+.settings-profile__email { color: var(--color-text-muted); font-size: 0.88rem; }
+
+.settings-section {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  margin-bottom: 12px;
+  overflow: hidden;
+  background: #fff;
+}
+.settings-section__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 16px;
+  background: none;
+  border: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  gap: 10px;
+}
+.settings-section__header-icon { font-size: 1.1rem; }
+.settings-section__chevron { color: var(--color-text-faint); transition: transform 0.15s ease; }
+.settings-section.is-open .settings-section__chevron { transform: rotate(180deg); }
+.settings-section__body {
+  padding: 0 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.settings-section__body .field + .field { margin-top: 0; }
+.settings-divider { border: none; border-top: 1px solid var(--color-border); margin: 0; }
+
+.settings-logout {
+  width: 100%;
+  text-align: left;
+  color: var(--color-danger);
+}
