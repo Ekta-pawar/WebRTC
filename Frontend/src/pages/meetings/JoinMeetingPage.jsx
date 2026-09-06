@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { FiVideo, FiLink } from 'react-icons/fi'
 import AuthLayout from '../../components/common/AuthLayout.jsx'
 import Input from '../../components/ui/Input.jsx'
 import Button from '../../components/ui/Button.jsx'
@@ -36,7 +37,7 @@ export default function JoinMeetingPage() {
           value={code}
           onChange={(e) => setCode(e.target.value)}
         />
-        <Button variant="primary" block loading={loading} onClick={() => handleJoin(code)} disabled={!code.trim()}>
+        <Button variant="primary" block icon={<FiVideo />} loading={loading} onClick={() => handleJoin(code)} disabled={!code.trim()}>
           Join Meeting
         </Button>
 
@@ -44,11 +45,11 @@ export default function JoinMeetingPage() {
 
         <Input
           label="Paste Meeting Link"
-          placeholder="https://nexus.app/meeting/..."
+          placeholder="https://webrtc.app/meeting/..."
           value={link}
           onChange={(e) => setLink(e.target.value)}
         />
-        <Button variant="outline" block loading={loading} onClick={() => handleJoin(link)} disabled={!link.trim()}>
+        <Button variant="outline" block icon={<FiLink />} loading={loading} onClick={() => handleJoin(link)} disabled={!link.trim()}>
           Join with Link
         </Button>
       </div>

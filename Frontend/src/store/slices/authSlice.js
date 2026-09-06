@@ -3,7 +3,7 @@ import * as authService from '../../services/auth.js'
 
 const storedUser = (() => {
   try {
-    return JSON.parse(localStorage.getItem('nexus_user') || 'null')
+    return JSON.parse(localStorage.getItem('webrtc_user') || 'null')
   } catch {
     return null
   }
@@ -11,18 +11,14 @@ const storedUser = (() => {
 
 const initialState = {
   user: storedUser,
-  token: localStorage.getItem('nexus_token') || null,
-  isAuthenticated: Boolean(localStorage.getItem('nexus_token')),
+  token: localStorage.getItem('webrtc_token') || null,
+  isAuthenticated: Boolean(localStorage.getItem('webrtc_token')),
   status: 'idle', // idle | loading | succeeded | failed
   error: null,
 }
 
 export const loginUser = createAsyncThunk('auth/login', async (credentials) => {
   return authService.login(credentials)
-})
-
-export const loginWithGoogle = createAsyncThunk('auth/loginWithGoogle', async () => {
-  return authService.loginWithGoogle()
 })
 
 export const registerUser = createAsyncThunk('auth/register', async (payload) => {
@@ -47,9 +43,6 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.fulfilled, (state, action) => {
-        applyAuthPayload(state, action.payload)
-      })
-      .addCase(loginWithGoogle.fulfilled, (state, action) => {
         applyAuthPayload(state, action.payload)
       })
       .addCase(registerUser.fulfilled, (state, action) => {
@@ -78,8 +71,8 @@ function applyAuthPayload(state, { user, token }) {
   state.user = user
   state.token = token
   state.isAuthenticated = true
-  localStorage.setItem('nexus_token', token)
-  localStorage.setItem('nexus_user', JSON.stringify(user))
+  localStorage.setItem('webrtc_token', token)
+  localStorage.setItem('webrtc_user', JSON.stringify(user))
 }
 
 export const { logout, clearAuthError } = authSlice.actions

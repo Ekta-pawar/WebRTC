@@ -1,12 +1,14 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { FiVideo, FiMonitor } from 'react-icons/fi'
+import { MdAutoAwesome } from 'react-icons/md'
 import Button from '../components/ui/Button.jsx'
 import '../styles/landing.css'
 
 const features = [
-  { icon: '🎥', title: 'Crystal-clear meetings', desc: 'Reliable, low-latency video and audio powered by WebRTC.' },
-  { icon: '✨', title: 'Live AI meeting notes', desc: 'Topics, decisions and action items appear while you talk — no waiting for a summary.' },
-  { icon: '🖥️', title: 'Share, chat, record', desc: 'Screen sharing, in-call chat and recording, built right into the room.' },
+  { icon: <FiVideo />, title: 'Crystal-clear meetings', desc: 'Reliable, low-latency video and audio powered by WebRTC.' },
+  { icon: <MdAutoAwesome />, title: 'Live AI meeting notes', desc: 'Topics, decisions and action items appear while you talk — no waiting for a summary.' },
+  { icon: <FiMonitor />, title: 'Share, chat, record', desc: 'Screen sharing, in-call chat and recording, built right into the room.' },
 ]
 
 export default function LandingPage() {
@@ -21,8 +23,8 @@ export default function LandingPage() {
     <div>
       <nav className="landing-nav">
         <div className="brand">
-          <span className="brand__mark">N</span>
-          Nexus
+          <span className="brand__mark">W</span>
+          WebRTC
         </div>
         <div className="landing-nav__actions">
           {isAuthenticated ? (
@@ -36,11 +38,11 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      <section className="landing-hero">
+      <section className="landing-hero page-transition">
         <span className="landing-hero__eyebrow">SMART VIDEO MEETINGS</span>
         <h1>Meet. Collaborate. Let AI take the notes.</h1>
         <p>
-          Nexus brings crystal-clear video calls together with a live AI assistant that quietly captures
+          WebRTC brings crystal-clear video calls together with a live AI assistant that quietly captures
           topics, decisions and action items as your meeting happens.
         </p>
         <div className="landing-hero__actions">
@@ -77,7 +79,7 @@ export default function LandingPage() {
         ))}
       </section>
 
-      <footer className="landing-footer">© {new Date().getFullYear()} Nexus. All rights reserved.</footer>
+      <footer className="landing-footer">© {new Date().getFullYear()} WebRTC. All rights reserved.</footer>
     </div>
   )
 }

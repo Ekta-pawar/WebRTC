@@ -26,6 +26,17 @@
   }
 }
 
+/* Page transition: replays whenever the router mounts a new page, since
+   AppShell keys its Outlet wrapper by pathname and every standalone page
+   (Landing, auth, join, meeting room) is a fresh mount by nature. */
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.page-transition {
+  animation: page-in 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 /* Top bar */
 .topbar {
   height: var(--header-h);
@@ -36,6 +47,7 @@
   border-bottom: 1px solid var(--color-border);
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(6px);
+  box-shadow: 0 1px 0 rgba(16, 40, 100, 0.03), 0 4px 16px rgba(16, 40, 100, 0.04);
   position: sticky;
   top: 0;
   z-index: 40;
@@ -124,7 +136,17 @@
     border-right: 1px solid var(--color-border);
     padding: 22px 16px;
     gap: 4px;
+    /* Pin the sidebar under the top bar so only the page content scrolls;
+       the sidebar's own content never overflows its height, so no inner
+       scrollbar shows even though overflow-y is set as a safety net. */
+    position: sticky;
+    top: var(--header-h);
+    align-self: flex-start;
+    height: calc(100svh - var(--header-h));
+    overflow-y: auto;
+    scrollbar-width: none;
   }
+  .sidebar::-webkit-scrollbar { display: none; }
   .sidebar__brand {
     padding: 0 8px;
     margin-bottom: 24px;
@@ -140,13 +162,23 @@
   font-weight: 600;
   font-size: 0.92rem;
   color: var(--color-text-muted);
+  transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
 }
 .nav-link:hover { background: var(--color-surface); color: var(--color-text); }
+.nav-link:active { transform: scale(0.98); }
 .nav-link.is-active {
   background: var(--color-primary-soft);
   color: var(--color-primary);
+  box-shadow: 0 1px 4px rgba(21, 82, 232, 0.12);
 }
-.nav-link__icon { font-size: 1.05rem; width: 20px; text-align: center; }
+.nav-link__icon {
+  font-size: 1.05rem;
+  width: 20px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .sidebar__footer {
   margin-top: auto;
@@ -171,6 +203,7 @@
   height: var(--bottomnav-h);
   background: #fff;
   border-top: 1px solid var(--color-border);
+  box-shadow: 0 -4px 20px rgba(16, 40, 100, 0.08);
   display: flex;
   z-index: 50;
   padding-bottom: env(safe-area-inset-bottom);
@@ -185,9 +218,17 @@
   font-size: 0.68rem;
   font-weight: 600;
   color: var(--color-text-faint);
+  transition: color 0.15s ease, transform 0.1s ease;
 }
+.bottom-nav__item:active { transform: scale(0.94); }
 .bottom-nav__item.is-active { color: var(--color-primary); }
-.bottom-nav__icon { font-size: 1.25rem; }
+.bottom-nav__icon {
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease;
+}
 .bottom-nav__item--cta .bottom-nav__icon {
   width: 34px;
   height: 34px;
@@ -198,7 +239,10 @@
   align-items: center;
   justify-content: center;
   font-size: 1.05rem;
+  box-shadow: 0 4px 12px rgba(21, 82, 232, 0.35);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
+.bottom-nav__item--cta:active .bottom-nav__icon { transform: scale(0.92); }
 
 @media (min-width: 1024px) {
   .bottom-nav { display: none; }
@@ -217,6 +261,10 @@
 .auth-layout__card {
   width: 100%;
   max-width: 400px;
+  animation: page-in 0.36s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.auth-layout__card .card {
+  box-shadow: var(--shadow-lg);
 }
 .auth-layout__brand {
   display: flex;

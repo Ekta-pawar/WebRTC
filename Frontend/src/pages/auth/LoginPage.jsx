@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import AuthLayout from '../../components/common/AuthLayout.jsx'
 import Input from '../../components/ui/Input.jsx'
 import Button from '../../components/ui/Button.jsx'
-import { loginUser, loginWithGoogle, clearAuthError } from '../../store/slices/authSlice.js'
+import { loginUser, clearAuthError } from '../../store/slices/authSlice.js'
 import { isValidEmail } from '../../utils/validators.js'
+import { notifySuccess } from '../../utils/toast.jsx'
 
 export default function LoginPage() {
   const dispatch = useDispatch()
@@ -31,19 +32,16 @@ export default function LoginPage() {
 
     dispatch(clearAuthError())
     const result = await dispatch(loginUser(form))
-    if (loginUser.fulfilled.match(result)) navigate(redirectTo, { replace: true })
-  }
-
-  const handleGoogleLogin = async () => {
-    dispatch(clearAuthError())
-    const result = await dispatch(loginWithGoogle())
-    if (loginWithGoogle.fulfilled.match(result)) navigate(redirectTo, { replace: true })
+    if (loginUser.fulfilled.match(result)) {
+      notifySuccess('Welcome back!')
+      navigate(redirectTo, { replace: true })
+    }
   }
 
   return (
     <AuthLayout
       title="Welcome back"
-      subtitle="Sign in to continue to Nexus"
+      subtitle="Sign in to continue to WebRTC"
       footer={
         <>
           Don’t have an account?{' '}
@@ -83,12 +81,6 @@ export default function LoginPage() {
 
         <Button type="submit" variant="primary" block loading={status === 'loading'}>
           Login
-        </Button>
-
-        <div className="auth-layout__divider">or</div>
-
-        <Button type="button" variant="outline" block onClick={handleGoogleLogin} disabled={status === 'loading'}>
-          Continue with Google
         </Button>
       </form>
     </AuthLayout>

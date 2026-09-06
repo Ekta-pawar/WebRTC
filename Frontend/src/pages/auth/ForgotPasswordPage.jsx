@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { FiMail } from 'react-icons/fi'
 import AuthLayout from '../../components/common/AuthLayout.jsx'
 import Input from '../../components/ui/Input.jsx'
 import Button from '../../components/ui/Button.jsx'
 import { forgotPassword } from '../../services/auth.js'
 import { isValidEmail } from '../../utils/validators.js'
+import { notifySuccess } from '../../utils/toast.jsx'
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('')
@@ -20,6 +22,7 @@ export default function ForgotPasswordPage() {
     try {
       await forgotPassword(email)
       setSent(true)
+      notifySuccess('Reset link sent.')
     } catch (err) {
       setError(err.message)
     } finally {
@@ -30,7 +33,9 @@ export default function ForgotPasswordPage() {
   if (sent) {
     return (
       <AuthLayout title="Check your inbox" subtitle={`We’ve sent a reset link to ${email}`}>
-        <div style={{ textAlign: 'center', fontSize: '2.4rem' }}>📬</div>
+        <div style={{ display: 'flex', justifyContent: 'center', fontSize: '2.4rem', color: 'var(--color-primary)' }}>
+          <FiMail />
+        </div>
         <div className="auth-layout__footer">
           <Link to="/login">Back to Login</Link>
         </div>

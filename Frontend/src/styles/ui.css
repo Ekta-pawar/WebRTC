@@ -9,7 +9,7 @@
   font-weight: 600;
   font-size: 0.95rem;
   padding: 11px 18px;
-  transition: background 0.15s ease, border-color 0.15s ease, transform 0.05s ease, opacity 0.15s ease;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.08s ease, opacity 0.15s ease, box-shadow 0.15s ease;
   white-space: nowrap;
 }
 .btn:active {
@@ -27,8 +27,14 @@
 .btn--primary {
   background: var(--color-primary);
   color: #fff;
+  box-shadow: 0 2px 8px rgba(21, 82, 232, 0.25);
 }
-.btn--primary:hover:not(:disabled) { background: var(--color-primary-hover); }
+.btn--primary:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+  box-shadow: 0 6px 16px rgba(21, 82, 232, 0.32);
+  transform: translateY(-1px);
+}
+.btn--primary:active:not(:disabled) { transform: scale(0.98); box-shadow: 0 2px 6px rgba(21, 82, 232, 0.25); }
 
 .btn--secondary {
   background: var(--color-primary-soft);
@@ -52,8 +58,13 @@
 .btn--danger {
   background: var(--color-danger);
   color: #fff;
+  box-shadow: 0 2px 8px rgba(217, 45, 60, 0.25);
 }
-.btn--danger:hover:not(:disabled) { background: #b52432; }
+.btn--danger:hover:not(:disabled) {
+  background: #b52432;
+  box-shadow: 0 6px 16px rgba(217, 45, 60, 0.3);
+  transform: translateY(-1px);
+}
 
 /* Inputs */
 .field {
@@ -97,8 +108,21 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
 }
 .card--padded { padding: 20px; }
+.card--interactive:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-border-strong);
+  transform: translateY(-2px);
+}
+
+/* Shared entrance animation for items appearing dynamically in a list
+   (chat messages, transcript lines, live AI note items). */
+@keyframes fade-in-item {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
 /* Badge */
 .badge {
@@ -116,7 +140,7 @@
 .badge--success { background: var(--color-success-soft); color: var(--color-success); }
 .badge--warning { background: var(--color-warning-soft); color: var(--color-warning); }
 .badge--danger { background: var(--color-danger-soft); color: var(--color-danger); }
-.badge--live { background: var(--color-live); color: #fff; }
+.badge--live { background: var(--color-live); color: #fff; box-shadow: 0 2px 8px rgba(224, 34, 58, 0.35); }
 .badge__dot {
   width: 6px;
   height: 6px;

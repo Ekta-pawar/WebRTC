@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { NavLink } from 'react-router-dom'
+import { FiSearch } from 'react-icons/fi'
 import Input from '../../components/ui/Input.jsx'
 import Spinner from '../../components/ui/Spinner.jsx'
 import EmptyState from '../../components/ui/EmptyState.jsx'
@@ -37,7 +38,7 @@ export default function PreviousMeetingsPage() {
         <div className="card-list"><Spinner /></div>
       ) : filtered.length === 0 ? (
         <div className="card-list">
-          <EmptyState icon="🔍" title="No meetings found" description="Try a different search term." />
+          <EmptyState icon={<FiSearch size={22} />} title="No meetings found" description="Try a different search term." />
         </div>
       ) : (
         <div className="card-list">

@@ -1,3 +1,5 @@
+import { FiX } from 'react-icons/fi'
+
 export default function Sheet({ open, onClose, side = 'bottom', title, dark, children }) {
   if (!open) return null
 
@@ -8,7 +10,7 @@ export default function Sheet({ open, onClose, side = 'bottom', title, dark, chi
         {title && (
           <div className="sheet__header">
             <h3>{title}</h3>
-            <button className="modal__close" onClick={onClose} aria-label="Close">✕</button>
+            <button className="modal__close" onClick={onClose} aria-label="Close"><FiX /></button>
           </div>
         )}
         <div className="sheet__body scroll-y">{children}</div>

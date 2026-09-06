@@ -1,3 +1,5 @@
+import { FiMicOff, FiVideoOff } from 'react-icons/fi'
+
 export default function ParticipantsPanel({ participants, isHost, onMute, onRemove }) {
   return (
     <div className="participants-panel">
@@ -13,8 +15,8 @@ export default function ParticipantsPanel({ participants, isHost, onMute, onRemo
               {p.isHost && <span className="video-tile__host-tag">Host</span>}
             </span>
             <span className="participants-list__status">
-              {!p.micOn && '🔇'}
-              {!p.cameraOn && '📷'}
+              {!p.micOn && <FiMicOff />}
+              {!p.cameraOn && <FiVideoOff />}
             </span>
             {isHost && !p.isYou && (
               <span className="participants-list__actions">

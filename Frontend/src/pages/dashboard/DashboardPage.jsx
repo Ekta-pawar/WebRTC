@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { FiPlus, FiLink, FiCalendar } from 'react-icons/fi'
+import { MdOutlineTimer } from 'react-icons/md'
 import Button from '../../components/ui/Button.jsx'
 import Card from '../../components/ui/Card.jsx'
 import Spinner from '../../components/ui/Spinner.jsx'
@@ -8,6 +10,7 @@ import EmptyState from '../../components/ui/EmptyState.jsx'
 import UpcomingMeetingCard from '../../components/meeting/UpcomingMeetingCard.jsx'
 import { getUpcomingMeetings, getPreviousMeetings, cancelMeeting } from '../../services/meeting.js'
 import { formatDateLabel, formatDuration } from '../../utils/formatDate.js'
+import { notifySuccess } from '../../utils/toast.jsx'
 import '../../styles/dashboard.css'
 import '../../styles/meetings.css'
 
@@ -32,10 +35,12 @@ export default function DashboardPage() {
   const handleCancel = async (meeting) => {
     await cancelMeeting(meeting.id)
     setUpcoming((prev) => prev.filter((m) => m.id !== meeting.id))
+    notifySuccess('Meeting cancelled.')
   }
 
   const handleCopyLink = (meeting) => {
     navigator.clipboard?.writeText(`${window.location.origin}/meeting/${meeting.id}`)
+    notifySuccess('Meeting link copied.')
   }
 
   return (
@@ -46,8 +51,8 @@ export default function DashboardPage() {
       </div>
 
       <div className="quick-actions">
-        <Button variant="primary" icon="➕" onClick={() => navigate('/schedule')}>New Meeting</Button>
-        <Button variant="secondary" icon="🔗" onClick={() => navigate('/join')}>Join Meeting</Button>
+        <Button variant="primary" icon={<FiPlus />} onClick={() => navigate('/schedule')}>New Meeting</Button>
+        <Button variant="secondary" icon={<FiLink />} onClick={() => navigate('/join')}>Join Meeting</Button>
       </div>
 
       <div className="section-header">
@@ -59,7 +64,7 @@ export default function DashboardPage() {
         <div className="card-list"><Spinner /></div>
       ) : upcoming.length === 0 ? (
         <div className="card-list">
-          <EmptyState icon="📅" title="No upcoming meetings" description="Schedule one to see it here." />
+          <EmptyState icon={<FiCalendar size={22} />} title="No upcoming meetings" description="Schedule one to see it here." />
         </div>
       ) : (
         <div className="card-list">
@@ -78,7 +83,7 @@ export default function DashboardPage() {
         <div className="card-list"><Spinner /></div>
       ) : recent.length === 0 ? (
         <div className="card-list">
-          <EmptyState icon="🗒️" title="No meetings yet" description="Your completed meetings will show up here." />
+          <EmptyState icon={<FiCalendar size={22} />} title="No meetings yet" description="Your completed meetings will show up here." />
         </div>
       ) : (
         <div className="card-list">
@@ -86,8 +91,8 @@ export default function DashboardPage() {
             <Card key={m.id} className="meeting-card">
               <div className="meeting-card__title">{m.title}</div>
               <div className="meeting-card__meta">
-                <span>📅 {formatDateLabel(m.date)}</span>
-                <span>⏱ {formatDuration(m.duration)}</span>
+                <span><FiCalendar /> {formatDateLabel(m.date)}</span>
+                <span><MdOutlineTimer /> {formatDuration(m.duration)}</span>
               </div>
               {m.hasNotes && (
                 <div className="meeting-card__actions">

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { FiArrowLeft, FiMonitor, FiX } from 'react-icons/fi'
 import Badge from '../../components/ui/Badge.jsx'
 import Spinner from '../../components/ui/Spinner.jsx'
 import VideoTile from '../../components/meeting/VideoTile.jsx'
@@ -29,6 +30,7 @@ import {
   participantRemoved,
 } from '../../store/slices/meetingSlice.js'
 import { aiReset } from '../../store/slices/aiSlice.js'
+import { notifyError, notifyInfo } from '../../utils/toast.jsx'
 import '../../styles/meetingroom.css'
 
 const PANEL_TITLES = { chat: 'Chat', participants: 'Participants', ai: 'AI Assistant' }
@@ -46,7 +48,7 @@ export default function MeetingRoomPage() {
   const [activePanel, setActivePanel] = useState(null)
   const [reactions, setReactions] = useState([])
 
-  const { stream, videoRef } = useLocalMedia({ micEnabled, cameraEnabled })
+  const { stream, videoRef, error: mediaError } = useLocalMedia({ micEnabled, cameraEnabled })
   const screenShare = useScreenShare({
     onStart: () => dispatch(screenShareStarted()),
     onStop: () => dispatch(screenShareStopped()),
@@ -54,6 +56,14 @@ export default function MeetingRoomPage() {
   const recorder = useMeetingRecorder(stream)
   const { sendMessage } = useMeetingSocket()
   const aiAssistant = useAiAssistant()
+
+  useEffect(() => {
+    if (mediaError) notifyError(mediaError)
+  }, [mediaError])
+
+  useEffect(() => {
+    if (screenShare.error) notifyError(screenShare.error)
+  }, [screenShare.error])
 
   useEffect(() => {
     let active = true
@@ -73,6 +83,7 @@ export default function MeetingRoomPage() {
     if (screenShare.sharing) screenShare.stop()
     if (recorder.active) recorder.stop()
     navigate('/dashboard')
+    notifyInfo('You left the meeting.')
   }
 
   const handleReact = (emoji) => {
@@ -125,7 +136,7 @@ export default function MeetingRoomPage() {
     <div className="meeting-room">
       <header className="meeting-room__topbar">
         <div className="meeting-room__topbar-left">
-          <button className="meeting-room__back" onClick={handleLeave} aria-label="Leave meeting">←</button>
+          <button className="meeting-room__back" onClick={handleLeave} aria-label="Leave meeting"><FiArrowLeft /></button>
           <span className="meeting-room__name">{meetingName || 'Meeting'}</span>
           <Badge variant="live" dot pulse>LIVE</Badge>
         </div>
@@ -137,7 +148,7 @@ export default function MeetingRoomPage() {
           {screenSharing && (
             <div className="screen-share-tile">
               <video ref={screenShare.videoRef} autoPlay playsInline className="screen-share-tile__video" />
-              <span className="screen-share-tile__label">🖥 Sharing Screen</span>
+              <span className="screen-share-tile__label"><FiMonitor /> Sharing Screen</span>
             </div>
           )}
 
@@ -171,7 +182,7 @@ export default function MeetingRoomPage() {
           <aside className="meeting-room__side-panel">
             <div className="side-panel__header">
               <span>{PANEL_TITLES[activePanel]}</span>
-              <button onClick={() => setActivePanel(null)} aria-label="Close panel">✕</button>
+              <button onClick={() => setActivePanel(null)} aria-label="Close panel"><FiX /></button>
             </div>
             <div className="side-panel__body">{renderPanelContent()}</div>
           </aside>

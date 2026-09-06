@@ -6,6 +6,7 @@ import Input from '../../components/ui/Input.jsx'
 import Button from '../../components/ui/Button.jsx'
 import { registerUser, clearAuthError } from '../../store/slices/authSlice.js'
 import { isValidEmail, isStrongEnoughPassword, passwordsMatch } from '../../utils/validators.js'
+import { notifySuccess } from '../../utils/toast.jsx'
 
 export default function RegisterPage() {
   const dispatch = useDispatch()
@@ -28,7 +29,10 @@ export default function RegisterPage() {
 
     dispatch(clearAuthError())
     const result = await dispatch(registerUser(form))
-    if (registerUser.fulfilled.match(result)) navigate('/verify-email')
+    if (registerUser.fulfilled.match(result)) {
+      notifySuccess('Account created! Verify your email to continue.')
+      navigate('/verify-email')
+    }
   }
 
   return (

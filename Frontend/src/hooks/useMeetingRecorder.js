@@ -20,7 +20,7 @@ export function useMeetingRecorder(stream) {
       const url = URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
-      a.download = `nexus-recording-${Date.now()}.webm`
+      a.download = `webrtc-recording-${Date.now()}.webm`
       a.click()
       URL.revokeObjectURL(url)
     }

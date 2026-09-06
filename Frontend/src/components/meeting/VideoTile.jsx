@@ -1,3 +1,5 @@
+import { FiMicOff } from 'react-icons/fi'
+
 export default function VideoTile({ participant, videoRef, className = '' }) {
   const showVideo = participant.isYou && participant.cameraOn && videoRef
   const initial = participant.name?.[0]?.toUpperCase() || '?'
@@ -17,7 +19,7 @@ export default function VideoTile({ participant, videoRef, className = '' }) {
           {participant.name}
           {participant.isHost && <span className="video-tile__host-tag">Host</span>}
         </span>
-        {!participant.micOn && <span className="video-tile__mic-off" aria-label="Muted">🔇</span>}
+        {!participant.micOn && <span className="video-tile__mic-off" aria-label="Muted"><FiMicOff /></span>}
       </div>
     </div>
   )

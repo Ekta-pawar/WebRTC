@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import { FiClock, FiLogOut } from 'react-icons/fi'
 import TopBar from './TopBar.jsx'
 import Sidebar from './Sidebar.jsx'
 import BottomNav from './BottomNav.jsx'
 import Sheet from '../ui/Sheet.jsx'
 import { navItems } from './navItems.js'
 import { logout } from '../../store/slices/authSlice.js'
+import { notifyInfo } from '../../utils/toast.jsx'
 
 const PAGE_TITLES = {
   '/dashboard': 'Dashboard',
@@ -32,11 +34,12 @@ export default function AppShell() {
   const location = useLocation()
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const title = PAGE_TITLES[location.pathname] || 'Nexus'
+  const title = PAGE_TITLES[location.pathname] || 'WebRTC'
   const backTarget = BACK_TARGETS[location.pathname]
 
   const handleLogout = () => {
     dispatch(logout())
+    notifyInfo('You have been logged out.')
     navigate('/')
   }
 
@@ -47,7 +50,9 @@ export default function AppShell() {
       <div className="app-shell__body">
         <Sidebar />
         <main className="app-shell__main">
-          <Outlet />
+          <div key={location.pathname} className="page-transition">
+            <Outlet />
+          </div>
         </main>
       </div>
 
@@ -62,16 +67,16 @@ export default function AppShell() {
               onClick={() => setDrawerOpen(false)}
               className={({ isActive }) => `nav-link ${isActive ? 'is-active' : ''}`}
             >
-              <span className="nav-link__icon">{item.icon}</span>
+              <span className="nav-link__icon"><item.icon /></span>
               {item.label === 'Home' ? 'Dashboard' : item.label === 'New' ? 'Schedule Meeting' : item.label}
             </NavLink>
           ))}
           <NavLink to="/previous" onClick={() => setDrawerOpen(false)} className={({ isActive }) => `nav-link ${isActive ? 'is-active' : ''}`}>
-            <span className="nav-link__icon">🕘</span>
+            <span className="nav-link__icon"><FiClock /></span>
             Previous Meetings
           </NavLink>
           <button className="nav-link" style={{ width: '100%', border: 'none', background: 'none' }} onClick={handleLogout}>
-            <span className="nav-link__icon">🚪</span>
+            <span className="nav-link__icon"><FiLogOut /></span>
             Logout
           </button>
         </nav>

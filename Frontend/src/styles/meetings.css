@@ -2,6 +2,12 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  animation: fade-in-item 0.3s ease both;
+}
+.meeting-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-border-strong);
+  transform: translateY(-2px);
 }
 .meeting-card__top {
   display: flex;
@@ -55,6 +61,8 @@
 
 .participant-stack {
   display: flex;
+  align-items: center;
+  gap: 6px;
   color: var(--color-text-muted);
   font-size: 0.85rem;
 }

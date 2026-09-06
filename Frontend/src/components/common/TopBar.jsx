@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { FiArrowLeft, FiMenu } from 'react-icons/fi'
 
 export default function TopBar({ title, onMenuClick, onBack }) {
   const user = useSelector((s) => s.auth.user)
@@ -10,9 +11,13 @@ export default function TopBar({ title, onMenuClick, onBack }) {
     <header className="topbar">
       <div className="topbar__left">
         {onBack ? (
-          <button className="topbar__menu-btn topbar__back-btn" onClick={() => navigate(onBack)} aria-label="Go back">←</button>
+          <button className="topbar__menu-btn topbar__back-btn" onClick={() => navigate(onBack)} aria-label="Go back">
+            <FiArrowLeft />
+          </button>
         ) : (
-          <button className="topbar__menu-btn" onClick={onMenuClick} aria-label="Open menu">☰</button>
+          <button className="topbar__menu-btn" onClick={onMenuClick} aria-label="Open menu">
+            <FiMenu />
+          </button>
         )}
         <span className="topbar__title">{title}</span>
       </div>

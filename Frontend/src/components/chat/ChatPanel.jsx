@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { FiSend } from 'react-icons/fi'
 
 const REACTIONS = ['👍', '❤️', '😂', '👏', '🎉']
 
@@ -46,7 +47,7 @@ export default function ChatPanel({ messages, onSend, onReact }) {
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
-        <button type="submit" className="btn btn--primary btn--sm" disabled={!text.trim()}>Send</button>
+        <button type="submit" className="btn btn--primary btn--sm" disabled={!text.trim()}><FiSend /> Send</button>
       </form>
     </div>
   )

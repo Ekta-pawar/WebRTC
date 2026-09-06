@@ -14,13 +14,6 @@ export async function login({ email, password }) {
   return { user: { ...mockUser, email }, token }
 }
 
-export async function loginWithGoogle() {
-  await delay(600)
-  // Real call: redirect to backend OAuth endpoint / exchange code
-  const token = 'mock_token_google_' + Date.now()
-  return { user: mockUser, token }
-}
-
 export async function register({ name, email, password }) {
   await delay(800)
   if (!name || !email || !password) throw new Error('All fields are required.')
@@ -55,6 +48,6 @@ export async function resetPassword({ token, password }) {
 }
 
 export function logout() {
-  localStorage.removeItem('nexus_token')
-  localStorage.removeItem('nexus_user')
+  localStorage.removeItem('webrtc_token')
+  localStorage.removeItem('webrtc_user')
 }

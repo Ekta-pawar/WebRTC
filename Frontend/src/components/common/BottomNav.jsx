@@ -12,7 +12,7 @@ export default function BottomNav() {
             `bottom-nav__item ${item.cta ? 'bottom-nav__item--cta' : ''} ${isActive ? 'is-active' : ''}`
           }
         >
-          <span className="bottom-nav__icon">{item.icon}</span>
+          <span className="bottom-nav__icon"><item.icon /></span>
           <span>{item.label}</span>
         </NavLink>
       ))}

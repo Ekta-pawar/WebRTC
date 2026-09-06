@@ -17,7 +17,7 @@ export async function getPreviousMeetings() {
   return previous
 }
 
-export async function scheduleMeeting({ title, date, time, description }) {
+export async function scheduleMeeting({ title, date, time, description, duration = 30, options = {} }) {
   await delay(700)
   if (!title || !date || !time) throw new Error('Title, date and time are required.')
   const meeting = {
@@ -26,21 +26,23 @@ export async function scheduleMeeting({ title, date, time, description }) {
     description,
     date,
     time,
-    duration: 30,
+    duration,
     host: 'You',
     status: 'confirmed',
     code: generateMeetingCode(),
+    passcode: options.requirePasscode ? generatePasscode() : null,
+    options,
   }
   // Real call: const { data } = await api.post('/meetings', payload)
   upcoming = [meeting, ...upcoming]
   return meeting
 }
 
-export async function updateMeeting(id, { title, date, time, description }) {
+export async function updateMeeting(id, { title, date, time, description, duration, options }) {
   await delay(700)
   if (!title || !date || !time) throw new Error('Title, date and time are required.')
   // Real call: const { data } = await api.patch(`/meetings/${id}`, payload)
-  upcoming = upcoming.map((m) => (m.id === id ? { ...m, title, date, time, description } : m))
+  upcoming = upcoming.map((m) => (m.id === id ? { ...m, title, date, time, description, duration, options } : m))
   return upcoming.find((m) => m.id === id)
 }
 
@@ -81,4 +83,8 @@ function generateMeetingCode() {
     Array.from({ length: 3 }, () => 'ABCDEFGHJKLMNPQRSTUVWXYZ'[Math.floor(Math.random() * 24)]).join('')
   const digits = () => String(Math.floor(100 + Math.random() * 900))
   return `${letters()}-${digits()}-${letters()}`
+}
+
+function generatePasscode() {
+  return String(Math.floor(100000 + Math.random() * 900000))
 }

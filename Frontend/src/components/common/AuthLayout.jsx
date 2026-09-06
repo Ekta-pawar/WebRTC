@@ -6,8 +6,8 @@ export default function AuthLayout({ title, subtitle, children, footer }) {
       <div className="auth-layout__card">
         <Link to="/" className="auth-layout__brand">
           <div className="brand">
-            <span className="brand__mark">N</span>
-            Nexus
+            <span className="brand__mark">W</span>
+            WebRTC
           </div>
         </Link>
 

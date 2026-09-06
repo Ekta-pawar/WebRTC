@@ -1,4 +1,6 @@
 import { useNavigate } from 'react-router-dom'
+import { FiCalendar, FiUsers } from 'react-icons/fi'
+import { MdOutlineTimer } from 'react-icons/md'
 import Card from '../ui/Card.jsx'
 import Button from '../ui/Button.jsx'
 import { formatDateLabel, formatDuration } from '../../utils/formatDate.js'
@@ -12,14 +14,14 @@ export default function PreviousMeetingCard({ meeting }) {
         <div>
           <div className="meeting-card__title">{meeting.title}</div>
           <div className="meeting-card__meta">
-            <span>📅 {formatDateLabel(meeting.date)}</span>
-            <span>⏱ {formatDuration(meeting.duration)}</span>
+            <span><FiCalendar /> {formatDateLabel(meeting.date)}</span>
+            <span><MdOutlineTimer /> {formatDuration(meeting.duration)}</span>
           </div>
         </div>
       </div>
 
       <div className="participant-stack">
-        👥&nbsp;{meeting.participants.join(', ')}
+        <FiUsers /> <span>{meeting.participants.join(', ')}</span>
       </div>
 
       <div className="meeting-card__actions">

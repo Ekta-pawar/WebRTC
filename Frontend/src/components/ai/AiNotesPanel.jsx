@@ -1,15 +1,17 @@
 import { useDispatch } from 'react-redux'
+import { FiAlertTriangle, FiCheck } from 'react-icons/fi'
+import { MdAutoAwesome } from 'react-icons/md'
 import { actionItemToggled } from '../../store/slices/aiSlice.js'
 import Button from '../ui/Button.jsx'
 import Spinner from '../ui/Spinner.jsx'
 
 const STATUS_CONFIG = {
-  inactive: { label: '✨ Start AI Notes', tone: 'neutral' },
-  connecting: { label: '⏳ Connecting AI...', tone: 'neutral' },
-  active: { label: '🟢 AI Notes Active', tone: 'success' },
-  processing: { label: '✨ Updating notes...', tone: 'success' },
-  error: { label: '⚠ AI connection lost', tone: 'danger' },
-  stopped: { label: 'AI Notes Off', tone: 'neutral' },
+  inactive: { label: 'Start AI Notes', tone: 'neutral', icon: <MdAutoAwesome /> },
+  connecting: { label: 'Connecting AI...', tone: 'neutral', icon: null },
+  active: { label: 'AI Notes Active', tone: 'success', icon: <span className="ai-status-dot" /> },
+  processing: { label: 'Updating notes...', tone: 'success', icon: <MdAutoAwesome /> },
+  error: { label: 'AI connection lost', tone: 'danger', icon: <FiAlertTriangle /> },
+  stopped: { label: 'AI Notes Off', tone: 'neutral', icon: null },
 }
 
 export default function AiNotesPanel({ status, notes, onStart, onStop, onRetry }) {
@@ -22,9 +24,10 @@ export default function AiNotesPanel({ status, notes, onStart, onStop, onRetry }
     <div className="ai-panel">
       <div className="ai-panel__header">
         <div>
-          <div className="ai-panel__title">✨ AI Meeting Assistant</div>
+          <div className="ai-panel__title"><MdAutoAwesome /> AI Meeting Assistant</div>
           <div className={`ai-panel__status ai-panel__status--${config.tone}`}>
             {status === 'connecting' && <Spinner />}
+            {config.icon}
             {config.label}
           </div>
         </div>
@@ -73,7 +76,7 @@ export default function AiNotesPanel({ status, notes, onStart, onStop, onRetry }
               <ul className="ai-list ai-list--actions">
                 {notes.actionItems.map((item) => (
                   <li key={item.id} onClick={() => dispatch(actionItemToggled(item.id))}>
-                    <span className={`ai-checkbox ${item.done ? 'is-done' : ''}`}>{item.done ? '☑' : '☐'}</span>
+                    <span className={`ai-checkbox ${item.done ? 'is-done' : ''}`}>{item.done && <FiCheck />}</span>
                     <span className={item.done ? 'ai-text--done' : ''}>
                       <strong>{item.assignee}</strong> — {item.text}
                       {item.due && <span className="ai-due"> · {item.due}</span>}

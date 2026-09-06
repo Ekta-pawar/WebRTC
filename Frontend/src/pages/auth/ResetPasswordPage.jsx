@@ -5,6 +5,7 @@ import Input from '../../components/ui/Input.jsx'
 import Button from '../../components/ui/Button.jsx'
 import { resetPassword } from '../../services/auth.js'
 import { isStrongEnoughPassword, passwordsMatch } from '../../utils/validators.js'
+import { notifySuccess } from '../../utils/toast.jsx'
 
 export default function ResetPasswordPage() {
   const navigate = useNavigate()
@@ -28,6 +29,7 @@ export default function ResetPasswordPage() {
     setFormError('')
     try {
       await resetPassword({ token: searchParams.get('token'), password: form.password })
+      notifySuccess('Password reset. Please log in.')
       navigate('/login')
     } catch (err) {
       setFormError(err.message)
